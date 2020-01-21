@@ -208,8 +208,8 @@ value라는 Property 이용 & 조건문 사용
 1) 키워드 this는 자기 자신을 의미
 document.querySelector('night_day').value -> this.value
 
-2) 중복을 없애는 것이 좋은 코딩 방법
-document.querySelector('body') -> 
+2) 중복을 없애는 것이 좋은 코딩 방법**
+document.querySelector('body') -> 변수 target 사용
 
 
 ==============================
