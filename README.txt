@@ -5,4 +5,5 @@
 		Web1 - HTML and Internet
 		Web2 - CSS
 		Web2 - JavaScript
+			-- Ajax
 
