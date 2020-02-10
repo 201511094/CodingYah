@@ -1,4 +1,4 @@
-var testFolder = '/data';
+var testFolder = './data';
 var fs = require('fs');
 
 //error, filelist -> two variables
