@@ -4,25 +4,14 @@ var url = require('url');
 
 var app = http.createServer(function(request,response){
     var _url = request.url;
-    //console.log(url);
     var queryData = url.parse(_url, true).query;
+    console.log(url.parse(_url, true));
+    var pathname = url.parse(_url, true).pathname;
+    var title = queryData.id;   //meaningful word
 
-    //meaningful word
-    var title = queryData.id;
-    console.dir(queryData);
-
-    if(_url == '/'){
-        //index.html
-        title = "Welcome";
-        queryData.id = "WEB";
-    }
-    if(_url == '/favicon.ico'){
-     	response.writeHead(404);
-    }
-    response.writeHead(200);
-
-    //undefined problem => `data/${queryData.id}` modified
-    fs.readFile(`${__dirname}/data/${queryData.id}`, 'utf8', function(err, description) {
+    if (pathname === '/') {
+        //undefined problem => modify `data/${queryData.id}`
+        fs.readFile(`${__dirname}/data/${queryData.id}`, 'utf8', function(err, description) {
         var template = `
             <!doctype html>
             <html>
@@ -43,7 +32,13 @@ var app = http.createServer(function(request,response){
             </html>
             `;
 
+        response.writeHead(200);
         response.end(template);
     })
+    } else {
+        response.writeHead(404);
+        response.end('Not found');
+    }
+
 });
 app.listen(3000);
