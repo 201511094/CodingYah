@@ -6,7 +6,7 @@ console.log(arr[3]);
 
 arr[2] = 3;
 console.log(arr);
-console.log('length: ' + arr.length);
+console.log(`length: ${arr.length}`);
 
 arr.push('E')
 console.log(arr);
