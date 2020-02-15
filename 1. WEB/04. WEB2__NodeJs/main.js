@@ -11,7 +11,7 @@ function templateHTML(title, list, body) {
             <meta charset="utf-8">
           </head>
           <body>
-            <h1><a href="/">My WEB Page</a></h1>
+            <h1><a href="/">My WEB Page!</a></h1>
             ${list}
             ${body}
           </body>
