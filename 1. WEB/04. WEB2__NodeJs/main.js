@@ -1,6 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
+var qs = require('querystring');
 
 function templateHTML(title, list, body) {
   return `
@@ -19,7 +20,7 @@ function templateHTML(title, list, body) {
           </body>
         </html>
         `;
-}
+  }
 
 //need filelist
 function templateList(filelist) {
@@ -34,15 +35,13 @@ function templateList(filelist) {
   return list;
 }
  
-var app = http.createServer(function(request,response)
-{
+var app = http.createServer(function(request,response) {
     var _url = request.url;
     var queryData = url.parse(_url, true).query;
     var pathname = url.parse(_url, true).pathname;
     if (pathname === '/')
     {
-        if (queryData.id === undefined)
-        {
+        if (queryData.id === undefined) {
           //HOME
           fs.readdir('./data', function(error, filelist){
             var title = 'Welcome';
@@ -54,8 +53,7 @@ var app = http.createServer(function(request,response)
             response.end(template);
           })          
         }
-        else
-        {
+        else {
           fs.readdir('./data', function(error, filelist){
             var list = templateList(filelist);
             fs.readFile(`data/${queryData.id}`, 'utf8', function(err, description)
@@ -74,7 +72,7 @@ var app = http.createServer(function(request,response)
             var title = 'WEB - create';
             var list = templateList(filelist);
             var template = templateHTML(title, list,
-              `<form action="http://localhost:3000/process_create" method="post">
+              `<form action="http://localhost:3000/create_process" method="post">
                 <p><input type="text" name="title" placeholder="Title"></p>
                 <p>
                   <textarea name="description" placeholder="Description"></textarea>
@@ -86,6 +84,22 @@ var app = http.createServer(function(request,response)
             response.writeHead(200);
             response.end(template);
           });
+    }
+    else if (pathname === '/create_process') {
+      var body = '';
+      request.on('data', function(data) {
+        body += data;
+      })
+      request.on('end', function() {
+        var post = qs.parse(body);
+        var title = post.title;
+        var description = post.description;
+        //console.log(post, title);
+        fs.writeFile(`data/${title}`, description, 'utf8', function(err) {
+          response.writeHead(302, {Location: `/?id=${title}`});
+          response.end('success'); 
+        })
+      });
     }
     else {
       response.writeHead(404);
