@@ -72,7 +72,7 @@ var app = http.createServer(function(request,response){
         });
       }
     }
-    else if(pathname === '/create'){
+    else if (pathname === '/create'){
       fs.readdir('./data', function(error, filelist){
         var title = 'WEB - create';
         var list = templateList(filelist);
@@ -91,7 +91,7 @@ var app = http.createServer(function(request,response){
         response.end(template);
       });
     }
-    else if(pathname === '/create_process'){
+    else if (pathname === '/create_process'){
       var body = '';
       request.on('data', function(data){
           body = body + data;
@@ -106,7 +106,7 @@ var app = http.createServer(function(request,response){
           })
       });
     }
-    else if(pathname === '/update'){
+    else if (pathname === '/update'){
       fs.readdir('./data', function(error, filelist){
         fs.readFile(`data/${queryData.id}`, 'utf8', function(err, description){
           var title = queryData.id;
@@ -124,17 +124,18 @@ var app = http.createServer(function(request,response){
               </p>
             </form>
             `,
-            `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`
+            `<a href="/create">create</a>
+             <a href="/update?id=${title}">update</a>`
           );
           response.writeHead(200);
           response.end(template);
         });
       });
     }
-    else if(pathname === '/update_process'){
+    else if (pathname === '/update_process'){
       var body = '';
       request.on('data', function(data){
-          body = body + data;
+          body += data;
       });
       request.on('end', function(){
           var post = qs.parse(body);
@@ -149,21 +150,22 @@ var app = http.createServer(function(request,response){
           });
       });
     }
-    else if(pathname === '/delete_process'){
+    else if (pathname === '/delete_process') {
       var body = '';
       request.on('data', function(data){
           body = body + data;
       });
+
       request.on('end', function(){
           var post = qs.parse(body);
           var id = post.id;
-          fs.unlink(`data/${id}`, function(error){
+          fs.unlink(`data/${id}`, function(err){
             response.writeHead(302, {Location: `/`});
             response.end();
-          })
+          });
       });
     }
-  else {
+    else {
       response.writeHead(404);
       response.end('Not found');
     }
