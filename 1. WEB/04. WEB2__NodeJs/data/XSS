@@ -1,0 +1,3 @@
+&lt;script&gt;
+location.href = 'http://www.google.com';
+&lt;script&gt;
